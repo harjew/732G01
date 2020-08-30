@@ -28,7 +28,7 @@ saveGIF(
       text(x=c(qt(0.025,i),qt(0.975,i)),y=c(dt(qt(0.025,i),i),dt(qt(0.975,i),i)),
            labels = c(round(qt(0.025,i),3),round(qt(0.975,i),3)),pos = c(2,4),cex=0.7,col="red")
       abline(h=0,col="gray",lty=3)
-      legend("topleft",c("Z",paste("t,df=",i),"95% konfidensintervall Z","95% konfidensintervall t"),
+      legend("topleft",c("Z",paste("t,df=",i),"95% konfidensintervall Z",paste("95% konfidensintervall t,df=",i)),
              col =c("blue","red","blue","red"),pch=c(NA,NA,19,19),lty=c(1,1,NA,NA),cex=0.8)
     }
   },
@@ -37,4 +37,32 @@ saveGIF(
   ani.width = 700, 
   ani.height = 700
 )
+a <- data.frame(K=rnorm(10,mean=170,sd=5),M=rnorm(10,175,6))
+knitr::kable(a)
+sd(a$K)
+sd(a$M)
+a$K
 
+m <- mean(a$K)
+sdk <- sd(a$K)
+t <- (173-m)/(sdk/sqrt(10))
+t
+pt(t,9)
+t.test(a$K,a$M,df=9,alternative = "two.sided")
+t.test(a$K,alternative = "less",mu=174)
+
+sd(a$K)
+s1 <- var(a$K)
+s2 <- var(a$M)
+
+sp <- ((10-1)*s1 + (10-1)*s2)/(10+10-2)
+sp
+t <- (mean(a$K)- mean(a$M))/(sqrt(sp)*(sqrt(1/10+1/10)))
+t
+t2 <- (mean(a$K)- mean(a$M))/(sqrt(s1/10+s2/10))
+t2
+
+
+df2 <- (s1/10+s2/10)^2/((s1/10)^2/9+(s2/10)^2/9)
+df2
+data.frame(X=rnorm(40,20,3))
